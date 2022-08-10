@@ -11,14 +11,30 @@ namespace StudentRecords.WebApi.Repository.Repository
         {
         }
 
-        public void EnrolStudent(int studentId, CourseEnrolemntModel enrolment)
+        public void EnrolStudent(int studentId, CourseEnrolementModel enrolment)
         {
             throw new System.NotImplementedException();
         }
 
         public void InsertStudent(StudentModel student)
         {
-            throw new System.NotImplementedException();
+            var exisingList = Load();
+
+            if (!string.IsNullOrEmpty(student.StudentId) && 
+                exisingList.Any(x => x.StudentId == student.StudentId))
+            {
+                //Catch student already existing
+                throw new ArgumentException("Student already exists");
+            }
+            if (string.IsNullOrEmpty(student.StudentId))
+            {
+                //Generate new id
+                student.StudentId = (exisingList.Max(x => int.Parse(x.StudentId)) +1).ToString();
+            }
+
+            exisingList = exisingList.Append(student);
+
+            UpdateList(exisingList);
         }
 
         public IEnumerable<StudentModel> Load()
@@ -33,7 +49,27 @@ namespace StudentRecords.WebApi.Repository.Repository
 
         public void UpdateStudent(StudentModel student)
         {
-            throw new System.NotImplementedException();
+            var existingList = Load();
+
+            //TODO - does not exist exception?
+
+            foreach (var existingStudent in existingList)
+            {
+                if (existingStudent.StudentId != student.StudentId) continue;
+
+                existingStudent.FirstName = student.FirstName;
+                existingStudent.LastName = student.LastName;
+                existingStudent.KnownAs = student.KnownAs;
+                existingStudent.DisplayName = student.DisplayName;
+                existingStudent.DateOfBirth = student.DateOfBirth;
+                existingStudent.Gender = student.Gender;
+                existingStudent.UniversityEmail = student.UniversityEmail;
+                existingStudent.NetworkId = student.NetworkId;
+                existingStudent.HomeOrOverseas = student.HomeOrOverseas;
+                break;
+            }
+
+            UpdateList(existingList);
         }
     }
 }

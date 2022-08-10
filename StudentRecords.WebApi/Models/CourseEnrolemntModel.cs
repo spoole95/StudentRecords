@@ -2,7 +2,7 @@
 
 namespace StudentRecords.WebApi.Models
 {
-    public class CourseEnrolemntModel
+    public class CourseEnrolementModel
     {
         public string EnrolmentId { get; set; }
         public string AcademicYear { get; set; }

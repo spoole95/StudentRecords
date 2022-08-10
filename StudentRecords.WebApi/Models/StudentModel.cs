@@ -15,6 +15,6 @@ namespace StudentRecords.WebApi.Models
         public string UniversityEmail { get; set; }
         public string NetworkId { get; set; }
         public char? HomeOrOverseas { get; set; }
-        public IEnumerable<CourseEnrolemntModel> CourseEnrolment { get; set; }
+        public IEnumerable<CourseEnrolementModel> CourseEnrolment { get; set; }
     }
 }

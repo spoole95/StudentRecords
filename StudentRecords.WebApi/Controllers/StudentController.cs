@@ -32,7 +32,7 @@ namespace StudentRecords.WebApi.Controllers
         }
 
         [HttpPut]
-        public IActionResult Enroll(int studentId, int courseId)
+        public IActionResult Enroll(int studentId, string courseCode)
         {
             throw new NotImplementedException();
         }
