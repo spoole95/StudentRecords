@@ -1,0 +1,79 @@
+﻿@model CourseEnrolmentListModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New Enrolment", "Create", new { studentId = Model.StudentId } )
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().AcademicYear)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().YearOfStudy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().Occurrence)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().ModeOfAttendance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().EnrolmentStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().CourseEntryDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().ExpectedEndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().Course.CourseCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Courses.FirstOrDefault().Course.CourseName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Courses)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AcademicYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.YearOfStudy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Occurrence)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModeOfAttendance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnrolmentStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseEntryDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpectedEndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.CourseCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.CourseName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { studentId = Model.StudentId, enrolmentId = item.EnrolmentId })
+            </td>
+        </tr>
+    }
+
+</table>

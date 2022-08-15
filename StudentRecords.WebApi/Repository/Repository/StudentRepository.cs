@@ -15,7 +15,7 @@ namespace StudentRecords.WebApi.Repository.Repository
         {
         }
 
-        public void EnrolStudent(int studentId, CourseEnrolementModel enrolment)
+        public void EnrolStudent(int studentId, CourseEnrolmentModel enrolment)
         {
             var student = LoadStudent(studentId);
 
@@ -76,7 +76,7 @@ namespace StudentRecords.WebApi.Repository.Repository
                 existingStudent.UniversityEmail = student.UniversityEmail;
                 existingStudent.NetworkId = student.NetworkId;
                 existingStudent.HomeOrOverseas = student.HomeOrOverseas;
-                existingStudent.CourseEnrolment = student.CourseEnrolment;
+                existingStudent.CourseEnrolment = student.CourseEnrolment ?? existingStudent.CourseEnrolment; //Only update if not null
                 break;
             }
 

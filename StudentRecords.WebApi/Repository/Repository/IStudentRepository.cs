@@ -9,6 +9,6 @@ namespace StudentRecords.WebApi.Repository.Repository
         StudentModel LoadStudent(int id);
         void InsertStudent(StudentModel student);
         void UpdateStudent(StudentModel student);
-        void EnrolStudent(int studentId, CourseEnrolementModel enrolment);
+        void EnrolStudent(int studentId, CourseEnrolmentModel enrolment);
     }
 }

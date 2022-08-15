@@ -112,7 +112,7 @@ namespace StudentRecords.WebApi.Controllers
         /// <response cref="HttpStatusCode.InternalServerError"></response>
         [HttpPut]
         [Route("Enroll/{studentId}")]
-        public IActionResult Enroll(int studentId, CourseEnrolementModel enrolment)
+        public IActionResult Enroll(int studentId, CourseEnrolmentModel enrolment)
         {
             try
             {

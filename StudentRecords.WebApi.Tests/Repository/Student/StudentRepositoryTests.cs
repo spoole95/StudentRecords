@@ -100,7 +100,7 @@ namespace StudentRecords.WebApi.Tests.Repository.Student
         public void Enroll_student_should_add_course_and_id()
         {
             //Arrange
-            var enrolment = new CourseEnrolementModel
+            var enrolment = new CourseEnrolmentModel
             {
                 EnrolmentId = "77777709/2",
                 AcademicYear = "2020/2",
