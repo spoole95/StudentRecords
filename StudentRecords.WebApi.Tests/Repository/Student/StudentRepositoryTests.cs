@@ -7,29 +7,33 @@ using System.Linq;
 namespace StudentRecords.WebApi.Tests.Repository.Student
 {
     public class StudentRepositoryTests
-    { 
+    {
+        private IStudentRepository _repo;
+
+        [SetUp]
+        public void Setup()
+        {
+            _repo = new StudentRepository("Data/students.json");
+        }
+
 
         [Test]
         public void LoadAll_should_return_all()
         {
             //Arrange
-            var repo = new StudentRepository();
-
             //Act
-            var result = repo.Load();
+            var result = _repo.Load();
 
             //Assert
             Assert.That(result.Count(), Is.GreaterThan(0));
         }
 
         [Test]
-        public void Load_valid_course_should_return_course()
+        public void Load_valid_student_should_return_course()
         {
             //Arrange
-            var repo = new StudentRepository();
-
             //Act
-            var result = repo.LoadStudent(77777702);
+            var result = _repo.LoadStudent(77777702);
 
             //Assert
             Assert.That(result.StudentId, Is.EqualTo("77777702"));
@@ -37,13 +41,11 @@ namespace StudentRecords.WebApi.Tests.Repository.Student
         }
 
         [Test]
-        public void Load_invalid_course_should_return_null()
+        public void Load_invalid_student_should_return_null()
         {
             //Arrange
-            var repo = new StudentRepository();
-
             //Act
-            var result = repo.LoadStudent(0);
+            var result = _repo.LoadStudent(0);
 
             //Assert
             Assert.That(result, Is.Null);
@@ -54,18 +56,16 @@ namespace StudentRecords.WebApi.Tests.Repository.Student
         public void Update_should_update_single_record()
         {
             //Arrange
-            var repo = new StudentRepository();
-
-            var student = repo.LoadStudent(77777703);
+            var student = _repo.LoadStudent(77777703);
 
             var updatedEmail = Guid.NewGuid().ToString(); //Going to unique most of the time (2^128), so won't be what was here last time the test was ran!.
             student.UniversityEmail = updatedEmail;
 
             //Act
-            repo.UpdateStudent(student);
+            _repo.UpdateStudent(student);
 
             //Assert
-            var updatedStudent = repo.LoadStudent(77777703);
+            var updatedStudent = _repo.LoadStudent(77777703);
 
             Assert.That(updatedEmail, Is.EqualTo(updatedStudent.UniversityEmail));
         }
@@ -81,24 +81,51 @@ namespace StudentRecords.WebApi.Tests.Repository.Student
                 KnownAs = Guid.NewGuid().ToString(),
                 DisplayName = "UTest",
                 DateOfBirth = DateTime.Now.Date,
-                Gender = 'N',
+                Gender = "N",
                 UniversityEmail = "Unit.test@mail.ac.uk",
                 NetworkId = "3324/3243",
                 HomeOrOverseas = 'C'
             };
 
-            var repo = new StudentRepository();
-
             //Act
-            repo.InsertStudent(student);
+            _repo.InsertStudent(student);
 
             //Assert
-            var list = repo.Load();
+            var list = _repo.Load();
 
             Assert.That(list.SingleOrDefault(x => x.KnownAs == student.KnownAs), Is.Not.Null);
         }
 
+        [Test]
+        public void Enroll_student_should_add_course_and_id()
+        {
+            //Arrange
+            var enrolment = new CourseEnrolementModel
+            {
+                EnrolmentId = "77777709/2",
+                AcademicYear = "2020/2",
+                YearOfStudy = "1",
+                Occurrence = "JAN2S",
+                ModeOfAttendance = "FULL TIME",
+                EnrolmentStatus = "E",
+                CourseEntryDate = new DateTime(2020, 7, 17),
+                ExpectedEndDate = new DateTime(2020, 8, 4),
+                Course = new CourseModel
+                {
+                    CourseCode = "PT0129Z",
+                    CourseName = "MA Interior Design (extended) (BCUIC)"
+                }
+            };
 
-        //TODO - enrolment status not saving properly
+            //Act
+            _repo.EnrolStudent(77777709, enrolment);
+
+            //Assert
+            var student = _repo.LoadStudent(77777709);
+
+            Assert.That(student.CourseEnrolment.Count, Is.EqualTo(2));
+            Assert.That(student.CourseEnrolment.SingleOrDefault(x => x.EnrolmentId == "77777709/2"), Is.Not.Null);
+            Assert.That(student.CourseEnrolment.SingleOrDefault(x => x.Course.CourseCode == "PT0129Z"), Is.Not.Null);
+        }
     }
 }

@@ -40,7 +40,8 @@ namespace StudentRecords.WebApi.Repository
         {
             File.WriteAllText(filePath, JsonSerializer.Serialize(list, new JsonSerializerOptions
             {
-                WriteIndented = true //Write indented otherwise humans stand no chance of reading again.
+                WriteIndented = true, //Write indented otherwise humans stand no chance of reading again.
+                IgnoreNullValues = true, //Null values not needed to be stored
             }));
         }
     }

@@ -6,14 +6,21 @@ namespace StudentRecords.WebApi.Tests.Repository.Course
 {
     public class CourseRepositoryTests
     {
+        private ICourseRepository _repo;
+
+        [SetUp]
+        public void Setup()
+        {
+            _repo = new CourseRepository("Data/Courses.json");
+        }
+
+
         [Test]
         public void LoadAll_should_return_all()
         {
             //Arrange
-            var repo = new CourseRepository();
-
             //Act
-            var result = repo.Load();
+            var result = _repo.Load();
 
             //Assert
             Assert.That(result.Count(), Is.GreaterThan(0));
@@ -23,10 +30,8 @@ namespace StudentRecords.WebApi.Tests.Repository.Course
         public void Load_valid_course_should_return_course()
         {
             //Arrange
-            var repo = new CourseRepository();
-
             //Act
-            var result = repo.LoadCourse("UP0000");
+            var result = _repo.LoadCourse("UP0000");
 
             //Assert
             Assert.That(result.CourseCode, Is.EqualTo("UP0000"));
@@ -37,10 +42,8 @@ namespace StudentRecords.WebApi.Tests.Repository.Course
         public void Load_invalid_course_should_return_null()
         {
             //Arrange
-            var repo = new CourseRepository();
-
             //Act
-            var result = repo.LoadCourse("sdf");
+            var result = _repo.LoadCourse("sdf");
 
             //Assert
             Assert.That(result, Is.Null);

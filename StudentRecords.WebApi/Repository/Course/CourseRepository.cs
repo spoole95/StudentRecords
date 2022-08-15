@@ -7,7 +7,11 @@ namespace StudentRecords.WebApi.Repository.Course
 {
     public class CourseRepository : JsonRepository, ICourseRepository
     {
-        public CourseRepository(): base(@"..\..\..\..\Data\Courses.json")
+        public CourseRepository(): base(@"..\Data\Courses.json")
+        {
+        }
+
+        public CourseRepository(string repositoryUrl) : base(repositoryUrl)
         {
         }
 
